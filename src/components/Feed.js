@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
@@ -9,6 +9,7 @@ const Feed = () => {
   const [postItem, setPostItem] = useState([]);
   const [successPost, setSuccessPost] = useState(false);
   const loginData = useSelector(state => state.login.loginDataRedux);
+
   const submitPost = async () => {
     if (text.current.value !== "") {
       const url = "http://localhost:4000/feeditems/additems";
@@ -28,6 +29,21 @@ const Feed = () => {
       }, 2000);
     }
   };
+  const callItemApi = async () => {
+    const url = "http://localhost:4000/feeditems/allitems";
+    try {
+      const response = await axios.get(url);
+      console.log(response);
+      setPostItem(response.data.reverse());
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    callItemApi();
+  }, [successPost]);
+
   return (
     <div className="d-flex">
       <LeftSide />
