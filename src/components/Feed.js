@@ -14,10 +14,10 @@ const Feed = () => {
     if (text.current.value !== "") {
       const url = "http://localhost:4000/feeditems/additems";
       const tempObj = {};
-      tempObj.id = "p" + parseInt(Math.random() * 100000000000);
+      tempObj.tweetid = "p" + parseInt(Math.random() * 100000000000);
       tempObj.userid = loginData.userid;
       tempObj.name = loginData.name;
-      tempObj.itemText = text.current.value;
+      tempObj.text = text.current.value;
       const response = await axios.post(url, tempObj);
       if (response.status === 201) {
         setSuccessPost(true);
