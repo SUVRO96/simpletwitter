@@ -29,7 +29,7 @@ const Login = () => {
         console.log(err);
         if (err.response.status === 404) {
           errorRef.current.textContent = "email or password incorrect";
-        } else if (err.response.status === 401) {
+        } else {
           errorRef.current.textContent =
             "something went wrong, connect to our customer service..";
         }

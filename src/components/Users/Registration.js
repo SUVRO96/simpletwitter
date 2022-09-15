@@ -15,7 +15,7 @@ const Registration = () => {
   const submitFn = async () => {
     const url = "http://localhost:4000/users/adduser";
     const tempObj = {};
-    tempObj.userid = "user" + parseInt(Math.random());
+    tempObj.userid = "user" + parseInt(Math.random() * 100000);
     tempObj.name = fullName.current.value;
     tempObj.email = email.current.value;
     tempObj.mobile = mobile.current.value;

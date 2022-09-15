@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
@@ -9,10 +10,11 @@ const Feed = () => {
   const [postItem, setPostItem] = useState([]);
   const [successPost, setSuccessPost] = useState(false);
   const loginData = useSelector(state => state.login.loginDataRedux);
+  const navigate = useNavigate();
 
   const submitPost = async () => {
     if (text.current.value !== "") {
-      const url = "http://localhost:4000/feeditems/additems";
+      const url = "http://localhost:4000/tweets/addtweet";
       const tempObj = {};
       tempObj.tweetid = "p" + parseInt(Math.random() * 100000000000);
       tempObj.userid = loginData.userid;
@@ -22,7 +24,6 @@ const Feed = () => {
       if (response.status === 201) {
         setSuccessPost(true);
       }
-      console.log(response);
       text.current.value = "";
       setTimeout(() => {
         setSuccessPost(false);
@@ -30,18 +31,25 @@ const Feed = () => {
     }
   };
   const callItemApi = async () => {
-    const url = "http://localhost:4000/feeditems/allitems";
+    const url = "http://localhost:4000/tweets/alltweets";
     try {
       const response = await axios.get(url);
-      console.log(response);
       setPostItem(response.data.reverse());
+      console.log(postItem);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
+    if (!loginData) {
+      navigate("/login");
+    }
+  });
+
+  useEffect(() => {
     callItemApi();
+    console.log(postItem);
   }, [successPost]);
 
   return (
@@ -97,9 +105,7 @@ const Feed = () => {
                       <p style={{ fontWeight: "bold" }}>{item.name}</p>
                     </span>
                   </div>
-                  {item.itemText && (
-                    <p className="ps-3 post-text">{item.itemText}</p>
-                  )}
+                  {item.text && <p className="ps-3 post-text">{item.text}</p>}
                   {item.itemImage && <img src={item.itemImage} alt="post" />}
                 </div>
               </div>
