@@ -90,7 +90,7 @@ const Feed = () => {
           {postItem &&
             postItem.map(item => (
               <div
-                key={item.id}
+                key={item.tweetid}
                 className="m-1 border rounded"
                 style={{ backgroundColor: "white" }}
               >
